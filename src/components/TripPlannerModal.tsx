@@ -1,11 +1,26 @@
 import { useState } from 'react';
-import { 
-  Compass, Calendar, Train, Utensils, Film, Landmark, Trees, 
-  Clock, MapPin, QrCode, Download, Share2, Sparkles, Check, 
-  Trash2, ExternalLink, ArrowRight, Printer 
+
+import {
+  Compass,
+  Calendar,
+  Train,
+  Sparkles,
+  Check,
+  Trash2,
+  ArrowRight,
+  Printer,
+  X,
+  MapPin,
+  Film,
+  Utensils,
+  Landmark,
+  Trees,
+  Route,
+  Clock3
 } from 'lucide-react';
+
 import { EXPERIENCE_ROUTES } from '../data/mockData';
-import { RouteItem } from '../types';
+
 
 interface TripPlannerModalProps {
   isOpen: boolean;
@@ -14,366 +29,1622 @@ interface TripPlannerModalProps {
   onToggleSaveStop: (stopId: string) => void;
 }
 
+
 export default function TripPlannerModal({
   isOpen,
   onClose,
   savedStops,
   onToggleSaveStop
 }: TripPlannerModalProps) {
+
   const [tripDays, setTripDays] = useState<number>(4);
-  const [arrivalHub, setArrivalHub] = useState<'sevilla' | 'malaga'>('sevilla');
-  const [selectedInterests, setSelectedInterests] = useState<string[]>(['cine', 'gastronomia', 'legado']);
-  const [generatedItinerary, setGeneratedItinerary] = useState<any[] | null>(null);
+
+  const [arrivalHub, setArrivalHub] =
+    useState<'sevilla' | 'malaga'>('sevilla');
+
+  const [selectedInterests, setSelectedInterests] =
+    useState<string[]>([
+      'cine',
+      'gastronomia',
+      'legado'
+    ]);
+
+  const [generatedItinerary, setGeneratedItinerary] =
+    useState<any[] | null>(null);
+
 
   if (!isOpen) return null;
 
+
   const toggleInterest = (interest: string) => {
+
     if (selectedInterests.includes(interest)) {
+
       if (selectedInterests.length > 1) {
-        setSelectedInterests(selectedInterests.filter(i => i !== interest));
+
+        setSelectedInterests(
+          selectedInterests.filter(
+            item => item !== interest
+          )
+        );
+
       }
+
     } else {
-      setSelectedInterests([...selectedInterests, interest]);
+
+      setSelectedInterests([
+        ...selectedInterests,
+        interest
+      ]);
+
     }
+
   };
+
 
   const handleGenerateItinerary = () => {
-    const matchingStops = EXPERIENCE_ROUTES.filter(r => 
-      selectedInterests.includes(r.category) || savedStops.includes(r.id)
-    );
 
-    const daysSchedule = [];
-    
-    // Day 1: Matchday + Sevilla Iconic
+    const daysSchedule: any[] = [];
+
+
+    /* DAY 1 */
+
     daysSchedule.push({
+
       day: 1,
-      title: "Día 1: El Partido & Sevilla Dorada",
-      subtitle: "De la hora dorada en Plaza de España a la noche en La Cartuja",
+
+      title: 'The Match & Golden Seville',
+
+      subtitle:
+        'El partido es el comienzo, no el final del viaje.',
+
       stops: [
-        { time: "09:30", place: "Real Alcázar de Sevilla (Dorne en Juego de Tronos)", type: "Cine / Patrimonio", note: "Paseo matinal antes de la apertura pública" },
-        { time: "14:00", place: "Almuerzo de tapas en Triana y orilla del Guadalquivir", type: "Gastronomía", note: "Pescaíto frito y manzanilla" },
-        { time: "18:30", place: "Plaza de España en Hora Dorada (Star Wars Naboo)", type: "Cine", note: "Barca por el canal y luz de albero" },
-        { time: "20:30", place: "Llegada al Estadio La Cartuja para el Partido", type: "Sede Mundialista", note: "Acceso y vibración de grada" }
+
+        {
+          time: '09:30',
+          place: 'Real Alcázar de Sevilla',
+          type: 'Screen & Heritage',
+          note:
+            'Patrimonio, arquitectura y una localización reconocible internacionalmente.'
+        },
+
+        {
+          time: '14:00',
+          place: 'Triana & Guadalquivir',
+          type: 'The Third Half',
+          note:
+            'Gastronomía local y paseo junto al río.'
+        },
+
+        {
+          time: '18:30',
+          place: 'Plaza de España · Golden Hour',
+          type: 'Andalucía on Screen',
+          note:
+            'Una de las imágenes cinematográficas más reconocibles de Sevilla.'
+        },
+
+        {
+          time: '20:30',
+          place: 'La Cartuja · Match Time',
+          type: 'World Cup',
+          note:
+            'El momento que concentra la atención global.'
+        }
+
       ]
+
     });
 
-    // Day 2: Córdoba (55 min AVE) or Cádiz Coast
+
+    /* DAY 2 */
+
     if (tripDays >= 2) {
+
       daysSchedule.push({
+
         day: 2,
-        title: "Día 2: Califato & Alta Gastronomía (Córdoba)",
-        subtitle: "A solo 55 minutos en AVE desde Sevilla Santa Justa",
+
+        title: 'Córdoba · History You Can Taste',
+
+        subtitle:
+          'Patrimonio y gastronomía conectados por alta velocidad.',
+
         stops: [
-          { time: "10:00", place: "AVE Sevilla -> Córdoba Central (55 min)", type: "Transporte Alta Velocidad", note: "Conexión directa ultrarrápida" },
-          { time: "11:15", place: "Bosque de Columnas de la Mezquita-Catedral", type: "Patrimonio UNESCO", note: "856 columnas de jaspe y mármol" },
-          { time: "14:00", place: "Restaurante Noor (3 Estrellas Michelin)", type: "El Tercer Tiempo", note: "Cocina histórica de Al-Ándalus por Paco Morales" },
-          { time: "18:00", place: "Paseo por los Patios de San Basilio y vuelta en AVE", type: "Legado", note: "Sombra y azahar al atardecer" }
+
+          {
+            time: '10:00',
+            place: 'Sevilla → Córdoba',
+            type: 'High-Speed Rail',
+            note:
+              'Conexión ferroviaria como puerta a una segunda provincia.'
+          },
+
+          {
+            time: '11:15',
+            place: 'Mezquita-Catedral',
+            type: 'Timeless Andalusia',
+            note:
+              'Una de las grandes referencias patrimoniales de Andalucía.'
+          },
+
+          {
+            time: '14:00',
+            place: 'Córdoba gastronómica',
+            type: 'The Third Half',
+            note:
+              'Tradición y alta cocina como parte del viaje.'
+          },
+
+          {
+            time: '18:00',
+            place: 'Centro histórico & patios',
+            type: 'Heritage',
+            note:
+              'Una última experiencia antes del regreso.'
+          }
+
         ]
+
       });
+
     }
 
-    // Day 3: Cádiz / Jerez & Vinos Catedralicios
+
+    /* DAY 3 */
+
     if (tripDays >= 3) {
+
       daysSchedule.push({
+
         day: 3,
-        title: "Día 3: La Costa de la Luz & Catedrales de Jerez",
-        subtitle: "Brisa marina atlántica y bodegas centenarias con velo de flor",
+
+        title: 'Cádiz & Jerez · The Atlantic South',
+
+        subtitle:
+          'Océano, gastronomía y cultura del vino.',
+
         stops: [
-          { time: "10:00", place: "Bodega histórica de Jerez de la Frontera", type: "Vino & Sombra", note: "Cata directa a pie de bota de Palos Cortados" },
-          { time: "13:30", place: "Aponiente (Ángel León) o Puerto de Santa María", type: "Alta Cocina Marina", note: "Menú del Chef del Mar o mariscada" },
-          { time: "18:00", place: "Playa de La Caleta en Cádiz (007 Muere Otro Día)", type: "Cine & Costa", note: "Atardecer en la ciudad más antigua de Occidente" },
-          { time: "22:00", place: "Tapeo nocturno en el Barrio de la Viña", type: "La Noche", note: "Tortillitas de camarones y compás de chirigota" }
+
+          {
+            time: '10:00',
+            place: 'Jerez de la Frontera',
+            type: 'Wine Culture',
+            note:
+              'Descubrir la cultura y el paisaje vinculados al vino de Jerez.'
+          },
+
+          {
+            time: '13:30',
+            place: 'Gastronomía de la Bahía',
+            type: 'The Third Half',
+            note:
+              'Producto atlántico y cocina del territorio.'
+          },
+
+          {
+            time: '18:00',
+            place: 'La Caleta · Cádiz',
+            type: 'Andalucía on Screen',
+            note:
+              'Atardecer atlántico y una localización vinculada al cine.'
+          },
+
+          {
+            time: '21:30',
+            place: 'Barrio de La Viña',
+            type: 'Local Life',
+            note:
+              'Una noche para vivir la ciudad desde dentro.'
+          }
+
         ]
+
       });
+
     }
 
-    // Day 4: Granada / Sierra Nevada
+
+    /* DAY 4 */
+
     if (tripDays >= 4) {
+
       daysSchedule.push({
+
         day: 4,
-        title: "Día 4: La Alhambra Nocturna & Tapas de Granada",
-        subtitle: "Cumbres frescas de Sierra Nevada y el mayor monumento de Al-Ándalus",
+
+        title: 'Granada · The Timeless South',
+
+        subtitle:
+          'Una jornada entre patrimonio, ciudad y paisaje.',
+
         stops: [
-          { time: "09:30", place: "Tren hacia Granada o transfer por carretera", type: "Ruta Oriental", note: "Vista del manto de olivos" },
-          { time: "13:00", place: "Ruta de Tapas Gratuitas por Calle Navas y Albaicín", type: "Gastronomía", note: "Tapas calientes y vistas panorámicas" },
-          { time: "17:00", place: "Mirador de San Nicolás frente a Sierra Nevada", type: "Naturaleza & Escena", note: "El atardecer más famoso del mundo" },
-          { time: "21:30", place: "Visita Nocturna a los Palacios Nazaríes de la Alhambra", type: "Legado y Pasión", note: "Silencio, fuentes y poesía tallada en yeso" }
+
+          {
+            time: '09:30',
+            place: 'Viaje hacia Granada',
+            type: 'Territory',
+            note:
+              'El desplazamiento forma también parte del descubrimiento.'
+          },
+
+          {
+            time: '13:00',
+            place: 'Granada gastronómica',
+            type: 'The Third Half',
+            note:
+              'Sabores locales antes de descubrir la ciudad histórica.'
+          },
+
+          {
+            time: '17:00',
+            place: 'Mirador de San Nicolás',
+            type: 'The Wild South',
+            note:
+              'Alhambra, Albaicín y Sierra Nevada en una misma mirada.'
+          },
+
+          {
+            time: '20:30',
+            place: 'Alhambra',
+            type: 'Timeless Andalusia',
+            note:
+              'El gran cierre patrimonial del viaje.'
+          }
+
         ]
+
       });
+
     }
+
+
+    /* DAYS 5-7 */
+
+    if (tripDays >= 7) {
+
+      daysSchedule.push({
+
+        day: 5,
+
+        title: 'Málaga · Mediterranean Energy',
+
+        subtitle:
+          'Cultura urbana, Mediterráneo y gastronomía.',
+
+        stops: [
+
+          {
+            time: '10:00',
+            place: 'Centro histórico de Málaga',
+            type: 'City',
+            note:
+              'Una mañana para recorrer la ciudad a pie.'
+          },
+
+          {
+            time: '13:30',
+            place: 'Mercado & gastronomía malagueña',
+            type: 'The Third Half',
+            note:
+              'Producto mediterráneo y cocina local.'
+          },
+
+          {
+            time: '17:30',
+            place: 'Málaga cultural',
+            type: 'Culture',
+            note:
+              'Museos y patrimonio urbano.'
+          },
+
+          {
+            time: '20:30',
+            place: 'Mediterranean Sunset',
+            type: 'Coast',
+            note:
+              'El Mediterráneo como cierre de jornada.'
+          }
+
+        ]
+
+      });
+
+
+      daysSchedule.push({
+
+        day: 6,
+
+        title: 'Jaén · The Sea of Olive Trees',
+
+        subtitle:
+          'Paisaje, aceite y patrimonio interior.',
+
+        stops: [
+
+          {
+            time: '10:00',
+            place: 'Paisaje del olivar',
+            type: 'Territory',
+            note:
+              'Un paisaje cultural que define gran parte del interior andaluz.'
+          },
+
+          {
+            time: '13:30',
+            place: 'Experiencia de AOVE',
+            type: 'Gastronomy',
+            note:
+              'El aceite como producto, cultura y experiencia.'
+          },
+
+          {
+            time: '17:00',
+            place: 'Úbeda / Baeza',
+            type: 'Heritage',
+            note:
+              'Patrimonio renacentista y ciudades históricas.'
+          }
+
+        ]
+
+      });
+
+
+      daysSchedule.push({
+
+        day: 7,
+
+        title: 'Huelva · Atlantic Nature',
+
+        subtitle:
+          'Naturaleza, costa y producto atlántico.',
+
+        stops: [
+
+          {
+            time: '10:00',
+            place: 'Entorno natural de Huelva',
+            type: 'The Wild South',
+            note:
+              'Una Andalucía de espacios abiertos y naturaleza.'
+          },
+
+          {
+            time: '14:00',
+            place: 'Producto de Huelva',
+            type: 'The Third Half',
+            note:
+              'Gastronomía vinculada al territorio.'
+          },
+
+          {
+            time: '18:00',
+            place: 'Atlantic Sunset',
+            type: 'Coast',
+            note:
+              'El viaje termina frente al Atlántico.'
+          }
+
+        ]
+
+      });
+
+    }
+
 
     setGeneratedItinerary(daysSchedule);
+
   };
 
-  const savedRouteObjects = EXPERIENCE_ROUTES.filter(r => savedStops.includes(r.id));
+
+  const savedRouteObjects =
+    EXPERIENCE_ROUTES.filter(
+      route => savedStops.includes(route.id)
+    );
+
+
+  const interests = [
+
+    {
+      id: 'cine',
+      label: 'On Screen',
+      sublabel: 'Cine & localizaciones',
+      icon: <Film className="w-5 h-5" />
+    },
+
+    {
+      id: 'gastronomia',
+      label: 'The Third Half',
+      sublabel: 'Gastronomía',
+      icon: <Utensils className="w-5 h-5" />
+    },
+
+    {
+      id: 'legado',
+      label: 'Timeless',
+      sublabel: 'Cultura & patrimonio',
+      icon: <Landmark className="w-5 h-5" />
+    },
+
+    {
+      id: 'activa',
+      label: 'Wild South',
+      sublabel: 'Naturaleza & costa',
+      icon: <Trees className="w-5 h-5" />
+    }
+
+  ];
+
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-white border border-stone-200 rounded-3xl max-w-4xl w-full overflow-hidden shadow-2xl max-h-[92vh] flex flex-col">
-        
-        {/* Modal Top Header in Bento Style */}
-        <div className="p-6 sm:p-8 bg-white border-b border-stone-200 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-[#D97706]/10 border border-[#D97706]/20 flex items-center justify-center text-[#D97706]">
-              <Compass className="w-6 h-6" />
-            </div>
-            <div>
-              <span className="text-[10px] font-mono uppercase tracking-widest text-[#D97706] font-bold block">
-                Pase Oficial del Visitante
-              </span>
-              <h3 className="text-2xl font-serif font-bold text-[#2D2926]">
-                Planificador de Rutas por Andalucía
-              </h3>
-            </div>
-          </div>
 
-          <button
-            onClick={onClose}
-            className="w-9 h-9 rounded-full bg-stone-100 text-stone-600 hover:text-stone-950 hover:bg-stone-200 flex items-center justify-center transition-colors"
+    <div
+      className="
+        fixed
+        inset-0
+        z-[80]
+        bg-[#07130F]/80
+        backdrop-blur-md
+        flex
+        items-center
+        justify-center
+        p-3
+        sm:p-5
+      "
+    >
+
+      <div
+        className="
+          bg-[#F8F5EE]
+          rounded-[30px]
+          max-w-6xl
+          w-full
+          overflow-hidden
+          shadow-2xl
+          max-h-[94vh]
+          flex
+          flex-col
+          border
+          border-white/10
+        "
+      >
+
+        {/* =====================================================
+            HEADER
+        ===================================================== */}
+
+        <div
+          className="
+            relative
+            overflow-hidden
+            bg-[#17382D]
+            text-white
+            px-6
+            py-7
+            sm:px-8
+            md:px-10
+            md:py-9
+          "
+        >
+
+          <div
+            className="
+              absolute
+              -right-20
+              -top-24
+              w-72
+              h-72
+              rounded-full
+              border
+              border-white/10
+            "
+          />
+
+
+          <div
+            className="
+              relative
+              z-10
+              flex
+              items-start
+              justify-between
+              gap-6
+            "
           >
-            ✕
-          </button>
-        </div>
 
-        {/* Modal Scrollable Content */}
-        <div className="p-6 sm:p-8 overflow-y-auto space-y-8 flex-1">
-          
-          {/* Saved Spots Drawer / Bar */}
-          {savedRouteObjects.length > 0 && (
-            <div className="p-5 rounded-3xl bg-[#FAF9F6] border border-stone-200 space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-[#2D2926] flex items-center gap-1.5">
-                  <Sparkles className="w-4 h-4 text-[#D97706]" />
-                  <span>Tus Paradas Guardadas ({savedRouteObjects.length})</span>
-                </span>
-                <span className="text-[11px] text-stone-500 font-light">Se incluirán automáticamente en tu plan</span>
+            <div>
+
+              <div
+                className="
+                  flex
+                  items-center
+                  gap-2
+                  text-[10px]
+                  uppercase
+                  tracking-[0.22em]
+                  font-bold
+                  text-[#E3AA49]
+                "
+              >
+
+                <Compass className="w-4 h-4" />
+
+                My Andalucía
+
               </div>
 
-              <div className="flex flex-wrap gap-2">
+
+              <h2
+                className="
+                  mt-3
+                  font-serif
+                  text-3xl
+                  sm:text-4xl
+                  md:text-5xl
+                  font-bold
+                  leading-none
+                "
+              >
+                Build your journey.
+
+                <span
+                  className="
+                    block
+                    italic
+                    text-[#E3AA49]
+                    mt-2
+                  "
+                >
+                  Stay for Andalucía.
+                </span>
+
+              </h2>
+
+
+              <p
+                className="
+                  mt-4
+                  max-w-2xl
+                  text-sm
+                  sm:text-base
+                  leading-relaxed
+                  text-white/55
+                "
+              >
+                El partido te trae hasta aquí.
+                Ahora dinos cuánto tiempo tienes y
+                qué Andalucía quieres descubrir.
+              </p>
+
+            </div>
+
+
+            <button
+              onClick={onClose}
+              className="
+                w-10
+                h-10
+                rounded-full
+                bg-white/10
+                border
+                border-white/10
+                text-white
+                flex
+                items-center
+                justify-center
+                hover:bg-white
+                hover:text-[#17382D]
+                transition
+                shrink-0
+              "
+            >
+              <X className="w-4 h-4" />
+            </button>
+
+          </div>
+
+        </div>
+
+
+        {/* =====================================================
+            SCROLL CONTENT
+        ===================================================== */}
+
+        <div
+          className="
+            overflow-y-auto
+            flex-1
+            p-6
+            sm:p-8
+            md:p-10
+            space-y-10
+          "
+        >
+
+          {/* SAVED STOPS */}
+
+          {savedRouteObjects.length > 0 && (
+
+            <section>
+
+              <div
+                className="
+                  flex
+                  items-center
+                  justify-between
+                  gap-4
+                  mb-4
+                "
+              >
+
+                <div>
+
+                  <div
+                    className="
+                      text-[9px]
+                      uppercase
+                      tracking-[0.2em]
+                      font-bold
+                      text-[#A7612C]
+                    "
+                  >
+                    Already on your list
+                  </div>
+
+                  <h3
+                    className="
+                      mt-1
+                      font-serif
+                      text-2xl
+                      font-bold
+                      text-[#17382D]
+                    "
+                  >
+                    Tus lugares guardados
+                  </h3>
+
+                </div>
+
+
+                <span
+                  className="
+                    w-9
+                    h-9
+                    rounded-full
+                    bg-[#D99A35]
+                    text-[#17382D]
+                    flex
+                    items-center
+                    justify-center
+                    text-xs
+                    font-black
+                  "
+                >
+                  {savedRouteObjects.length}
+                </span>
+
+              </div>
+
+
+              <div
+                className="
+                  flex
+                  flex-wrap
+                  gap-2
+                "
+              >
+
                 {savedRouteObjects.map((stop) => (
+
                   <div
                     key={stop.id}
-                    className="px-3.5 py-1.5 rounded-full bg-white border border-stone-300 text-xs text-[#2D2926] font-semibold flex items-center gap-2 shadow-xs"
+                    className="
+                      inline-flex
+                      items-center
+                      gap-2
+                      rounded-full
+                      bg-white
+                      border
+                      border-stone-200
+                      px-4
+                      py-2
+                      text-xs
+                      font-semibold
+                      text-[#17382D]
+                    "
                   >
-                    <span>{stop.name} ({stop.province})</span>
+
+                    <MapPin className="w-3.5 h-3.5 text-[#A7612C]" />
+
+                    {stop.name}
+
+                    <span className="text-stone-400">
+                      · {stop.province}
+                    </span>
+
+
                     <button
-                      onClick={() => onToggleSaveStop(stop.id)}
-                      className="text-stone-400 hover:text-rose-600"
-                      title="Eliminar"
+                      onClick={() =>
+                        onToggleSaveStop(stop.id)
+                      }
+                      className="
+                        ml-1
+                        text-stone-300
+                        hover:text-[#7A3025]
+                      "
                     >
                       <Trash2 className="w-3.5 h-3.5" />
                     </button>
+
                   </div>
+
                 ))}
+
               </div>
-            </div>
+
+            </section>
+
           )}
 
-          {/* Config Controls Grid in Bento Style */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            
-            {/* Control 1: Total Extra Days */}
-            <div className="space-y-2.5">
-              <label className="text-xs font-bold uppercase tracking-wider text-stone-500 flex items-center gap-1.5">
-                <Calendar className="w-3.5 h-3.5 text-[#D97706]" />
-                <span>Duración de la Estancia:</span>
-              </label>
-              <div className="grid grid-cols-3 gap-2">
-                {[2, 4, 7].map((days) => (
-                  <button
-                    key={days}
-                    onClick={() => setTripDays(days)}
-                    className={`py-2.5 rounded-2xl text-xs font-bold border transition-all ${
+
+          {/* =====================================================
+              STEP 1 — DAYS
+          ===================================================== */}
+
+          <section>
+
+            <StepHeader
+              number="01"
+              title="How long are you staying?"
+              subtitle="Elige cuánto quieres prolongar el viaje."
+            />
+
+
+            <div
+              className="
+                grid
+                grid-cols-3
+                gap-3
+                mt-5
+              "
+            >
+
+              {[2, 4, 7].map((days) => (
+
+                <button
+                  key={days}
+                  onClick={() => {
+                    setTripDays(days);
+                    setGeneratedItinerary(null);
+                  }}
+                  className={`
+                    rounded-[22px]
+                    border
+                    px-4
+                    py-6
+                    text-left
+                    transition-all
+                    ${
                       tripDays === days
-                        ? 'bg-[#1C1917] text-white border-[#1C1917] shadow-sm'
-                        : 'bg-[#FAF9F6] text-stone-700 border-stone-200 hover:bg-white'
-                    }`}
+                        ? 'bg-[#17382D] text-white border-[#17382D] shadow-lg'
+                        : 'bg-white text-[#17382D] border-stone-200 hover:border-[#D99A35]'
+                    }
+                  `}
+                >
+
+                  <div
+                    className="
+                      font-serif
+                      text-4xl
+                      sm:text-5xl
+                      font-bold
+                    "
                   >
-                    {days} Días
-                  </button>
-                ))}
-              </div>
+                    {days}
+                  </div>
+
+                  <div
+                    className={`
+                      mt-1
+                      text-[9px]
+                      uppercase
+                      tracking-[0.18em]
+                      font-bold
+                      ${
+                        tripDays === days
+                          ? 'text-[#E3AA49]'
+                          : 'text-stone-400'
+                      }
+                    `}
+                  >
+                    days
+                  </div>
+
+                </button>
+
+              ))}
+
             </div>
 
-            {/* Control 2: Arrival Hub */}
-            <div className="space-y-2.5">
-              <label className="text-xs font-bold uppercase tracking-wider text-stone-500 flex items-center gap-1.5">
-                <Train className="w-3.5 h-3.5 text-[#D97706]" />
-                <span>Punto de Entrada / Sede:</span>
-              </label>
-              <div className="grid grid-cols-2 gap-2">
-                <button
-                  onClick={() => setArrivalHub('sevilla')}
-                  className={`py-2.5 px-3 rounded-2xl text-xs font-bold border transition-all ${
-                    arrivalHub === 'sevilla'
-                      ? 'bg-[#1C1917] text-white border-[#1C1917] shadow-sm'
-                      : 'bg-[#FAF9F6] text-stone-700 border-stone-200 hover:bg-white'
-                  }`}
-                >
-                  Sevilla (Sede)
-                </button>
-                <button
-                  onClick={() => setArrivalHub('malaga')}
-                  className={`py-2.5 px-3 rounded-2xl text-xs font-bold border transition-all ${
-                    arrivalHub === 'malaga'
-                      ? 'bg-[#1C1917] text-white border-[#1C1917] shadow-sm'
-                      : 'bg-[#FAF9F6] text-stone-700 border-stone-200 hover:bg-white'
-                  }`}
-                >
-                  Málaga (Vuelos)
-                </button>
-              </div>
+          </section>
+
+
+          {/* =====================================================
+              STEP 2 — ARRIVAL
+          ===================================================== */}
+
+          <section>
+
+            <StepHeader
+              number="02"
+              title="Where does your journey begin?"
+              subtitle="Selecciona tu principal punto de entrada."
+            />
+
+
+            <div
+              className="
+                grid
+                sm:grid-cols-2
+                gap-3
+                mt-5
+              "
+            >
+
+              <ArrivalCard
+                selected={arrivalHub === 'sevilla'}
+                title="Sevilla"
+                subtitle="World Cup Host City"
+                detail="SVQ · AVE · La Cartuja"
+                onClick={() => {
+                  setArrivalHub('sevilla');
+                  setGeneratedItinerary(null);
+                }}
+              />
+
+
+              <ArrivalCard
+                selected={arrivalHub === 'malaga'}
+                title="Málaga"
+                subtitle="Mediterranean Gateway"
+                detail="AGP · High-Speed Rail · Costa del Sol"
+                onClick={() => {
+                  setArrivalHub('malaga');
+                  setGeneratedItinerary(null);
+                }}
+              />
+
             </div>
 
-            {/* Control 3: Interests */}
-            <div className="space-y-2.5">
-              <label className="text-xs font-bold uppercase tracking-wider text-stone-500 flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5 text-[#D97706]" />
-                <span>Preferencias de Ruta:</span>
-              </label>
-              <div className="grid grid-cols-2 gap-2">
-                {[
-                  { id: 'cine', label: '🎬 Cine & Plató' },
-                  { id: 'gastronomia', label: '🍷 Michelin & Jerez' },
-                  { id: 'legado', label: '🏛️ Flamenco & Alhambra' },
-                  { id: 'activa', label: '🌿 Sierra & Costa' },
-                ].map((interest) => {
-                  const isSelected = selectedInterests.includes(interest.id);
-                  return (
-                    <button
-                      key={interest.id}
-                      onClick={() => toggleInterest(interest.id)}
-                      className={`p-2 rounded-xl text-[11px] font-bold border transition-all text-left ${
-                        isSelected
-                          ? 'bg-[#1C1917] border-[#1C1917] text-white'
-                          : 'bg-[#FAF9F6] border-stone-200 text-stone-600 hover:bg-white'
-                      }`}
-                    >
-                      {interest.label}
-                    </button>
+          </section>
+
+
+          {/* =====================================================
+              STEP 3 — INTERESTS
+          ===================================================== */}
+
+          <section>
+
+            <StepHeader
+              number="03"
+              title="What is your Andalucía?"
+              subtitle="Combina intereses. Tu viaje no tiene por qué elegir solo uno."
+            />
+
+
+            <div
+              className="
+                grid
+                sm:grid-cols-2
+                lg:grid-cols-4
+                gap-3
+                mt-5
+              "
+            >
+
+              {interests.map((interest) => {
+
+                const selected =
+                  selectedInterests.includes(
+                    interest.id
                   );
-                })}
-              </div>
+
+                return (
+
+                  <button
+                    key={interest.id}
+                    onClick={() => {
+                      toggleInterest(interest.id);
+                      setGeneratedItinerary(null);
+                    }}
+                    className={`
+                      rounded-[22px]
+                      p-5
+                      text-left
+                      border
+                      min-h-[145px]
+                      flex
+                      flex-col
+                      justify-between
+                      transition-all
+                      ${
+                        selected
+                          ? 'bg-[#D99A35] border-[#D99A35] text-[#17382D] shadow-md'
+                          : 'bg-white border-stone-200 text-[#17382D] hover:border-[#D99A35]'
+                      }
+                    `}
+                  >
+
+                    <div
+                      className="
+                        flex
+                        items-center
+                        justify-between
+                      "
+                    >
+
+                      {interest.icon}
+
+                      {selected && (
+                        <Check className="w-4 h-4 stroke-[3]" />
+                      )}
+
+                    </div>
+
+
+                    <div>
+
+                      <div
+                        className="
+                          font-serif
+                          text-xl
+                          font-bold
+                        "
+                      >
+                        {interest.label}
+                      </div>
+
+                      <div
+                        className={`
+                          mt-1
+                          text-[10px]
+                          ${
+                            selected
+                              ? 'text-[#17382D]/60'
+                              : 'text-stone-400'
+                          }
+                        `}
+                      >
+                        {interest.sublabel}
+                      </div>
+
+                    </div>
+
+                  </button>
+
+                );
+
+              })}
+
             </div>
 
-          </div>
+          </section>
 
-          {/* Action Generate Button */}
-          <div className="flex justify-center pt-2">
+
+          {/* GENERATE */}
+
+          <div className="flex justify-center py-2">
+
             <button
               onClick={handleGenerateItinerary}
-              className="px-8 py-3.5 rounded-full bg-[#1C1917] text-white font-bold text-sm shadow-md hover:bg-black active:scale-95 transition-all flex items-center gap-2"
+              className="
+                group
+                inline-flex
+                items-center
+                gap-3
+                rounded-full
+                bg-[#17382D]
+                px-7
+                sm:px-9
+                py-4
+                text-sm
+                font-bold
+                text-white
+                shadow-xl
+                hover:bg-[#214C3D]
+                transition
+                active:scale-95
+              "
             >
-              <Compass className="w-4 h-4 text-[#D97706]" />
-              <span>Generar Itinerario Personalizado ({tripDays} Días)</span>
-              <ArrowRight className="w-4 h-4" />
+
+              <Sparkles className="w-4 h-4 text-[#E3AA49]" />
+
+              Build my {tripDays}-day Andalucía
+
+              <ArrowRight
+                className="
+                  w-4
+                  h-4
+                  transition-transform
+                  group-hover:translate-x-1
+                "
+              />
+
             </button>
+
           </div>
 
-          {/* Generated Itinerary Output */}
+
+          {/* =====================================================
+              RESULT
+          ===================================================== */}
+
           {generatedItinerary && (
-            <div className="space-y-6 pt-6 border-t border-stone-200">
-              
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 rounded-3xl bg-[#FAF9F6] border border-stone-200">
-                <div>
-                  <div className="text-xs font-mono uppercase tracking-widest text-[#D97706] font-bold">
-                    Pase Digital Generado · Andalucía 2030
-                  </div>
-                  <h4 className="text-xl font-serif font-bold text-[#2D2926] mt-0.5">
-                    Itinerario Oficial: De la Grada al Territorio Andaluz
-                  </h4>
-                  <p className="text-xs text-stone-600 mt-1 font-light">
-                    Cubre {tripDays} días · Entrada por {arrivalHub === 'sevilla' ? 'Sevilla (AVE/SVQ)' : 'Málaga (AGP)'} · {selectedInterests.length} rutas combinadas
-                  </p>
+
+            <section
+              className="
+                pt-9
+                border-t
+                border-stone-300
+                space-y-7
+              "
+            >
+
+              {/* RESULT HEADER */}
+
+              <div
+                className="
+                  relative
+                  overflow-hidden
+                  rounded-[28px]
+                  bg-[#17382D]
+                  text-white
+                  p-7
+                  sm:p-8
+                "
+              >
+
+                <div
+                  className="
+                    absolute
+                    -right-14
+                    -bottom-20
+                    font-serif
+                    text-[180px]
+                    leading-none
+                    font-black
+                    text-white/[0.035]
+                  "
+                >
+                  {tripDays}
                 </div>
 
-                <div className="flex items-center gap-2">
-                  <div className="w-16 h-16 rounded-2xl bg-white p-1.5 flex items-center justify-center shadow-sm border border-stone-200">
-                    <QrCode className="w-full h-full text-[#2D2926]" />
+
+                <div className="relative z-10">
+
+                  <div
+                    className="
+                      text-[9px]
+                      uppercase
+                      tracking-[0.22em]
+                      font-bold
+                      text-[#E3AA49]
+                    "
+                  >
+                    Your Andalucía · Concept Journey
                   </div>
+
+
+                  <h3
+                    className="
+                      mt-3
+                      font-serif
+                      text-3xl
+                      sm:text-4xl
+                      font-bold
+                    "
+                  >
+                    From the match
+                    to the journey.
+                  </h3>
+
+
+                  <p
+                    className="
+                      mt-3
+                      text-sm
+                      leading-relaxed
+                      text-white/55
+                    "
+                  >
+                    {tripDays} días · Entrada por{' '}
+                    {
+                      arrivalHub === 'sevilla'
+                        ? 'Sevilla'
+                        : 'Málaga'
+                    }
+                    {' · '}
+                    {selectedInterests.length} intereses
+                    {' · '}
+                    {savedRouteObjects.length} lugares guardados
+                  </p>
+
                 </div>
+
               </div>
 
-              {/* Day-by-Day Bento Cards */}
-              <div className="space-y-4">
-                {generatedItinerary.map((dayItem) => (
-                  <div
-                    key={dayItem.day}
-                    className="p-6 rounded-3xl bg-white border border-stone-200 space-y-4 shadow-sm"
-                  >
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 border-b border-stone-100 pb-3">
-                      <div>
-                        <h5 className="font-serif font-bold text-base text-[#2D2926]">
+
+              {/* DAYS */}
+
+              <div className="space-y-5">
+
+                {generatedItinerary.map(
+                  (dayItem) => (
+
+                    <div
+                      key={dayItem.day}
+                      className="
+                        grid
+                        md:grid-cols-12
+                        gap-5
+                        rounded-[26px]
+                        bg-white
+                        border
+                        border-stone-200
+                        p-6
+                        sm:p-7
+                      "
+                    >
+
+                      {/* DAY NUMBER */}
+
+                      <div
+                        className="
+                          md:col-span-2
+                          md:border-r
+                          md:border-stone-200
+                        "
+                      >
+
+                        <div
+                          className="
+                            font-serif
+                            text-5xl
+                            font-bold
+                            text-[#D99A35]
+                          "
+                        >
+                          {String(dayItem.day).padStart(2, '0')}
+                        </div>
+
+                        <div
+                          className="
+                            text-[9px]
+                            uppercase
+                            tracking-[0.18em]
+                            font-bold
+                            text-stone-400
+                          "
+                        >
+                          Day
+                        </div>
+
+                      </div>
+
+
+                      {/* DAY CONTENT */}
+
+                      <div className="md:col-span-10">
+
+                        <h4
+                          className="
+                            font-serif
+                            text-2xl
+                            font-bold
+                            text-[#17382D]
+                          "
+                        >
                           {dayItem.title}
-                        </h5>
-                        <p className="text-xs text-stone-500 font-light">
+                        </h4>
+
+                        <p
+                          className="
+                            mt-1
+                            text-sm
+                            text-stone-400
+                          "
+                        >
                           {dayItem.subtitle}
                         </p>
-                      </div>
-                      <span className="px-3 py-1 rounded-full bg-[#FAF9F6] text-[#D97706] border border-stone-200 text-[11px] font-mono font-bold w-fit">
-                        Día {dayItem.day} de {tripDays}
-                      </span>
-                    </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      {dayItem.stops.map((stop: any, idx: number) => (
+
                         <div
-                          key={idx}
-                          className="p-4 rounded-2xl bg-[#FAF9F6] border border-stone-200 text-xs space-y-1.5"
+                          className="
+                            mt-6
+                            space-y-4
+                          "
                         >
-                          <div className="flex items-center justify-between">
-                            <span className="font-mono font-bold text-[#D97706] text-[11px]">
-                              {stop.time}
-                            </span>
-                            <span className="px-2.5 py-0.5 rounded-full bg-white text-stone-600 border border-stone-200 text-[10px] font-semibold">
-                              {stop.type}
-                            </span>
-                          </div>
-                          <h6 className="font-bold text-[#2D2926] text-xs">
-                            {stop.place}
-                          </h6>
-                          <p className="text-stone-500 text-[11px] font-light">
-                            {stop.note}
-                          </p>
+
+                          {dayItem.stops.map(
+                            (
+                              stop: any,
+                              index: number
+                            ) => (
+
+                              <div
+                                key={index}
+                                className="
+                                  flex
+                                  gap-4
+                                  items-start
+                                "
+                              >
+
+                                <div
+                                  className="
+                                    w-[58px]
+                                    shrink-0
+                                    pt-0.5
+                                    text-[11px]
+                                    font-mono
+                                    font-bold
+                                    text-[#A7612C]
+                                  "
+                                >
+                                  {stop.time}
+                                </div>
+
+
+                                <div
+                                  className="
+                                    relative
+                                    flex-1
+                                    border-l
+                                    border-stone-200
+                                    pl-5
+                                    pb-2
+                                  "
+                                >
+
+                                  <div
+                                    className="
+                                      absolute
+                                      -left-[4.5px]
+                                      top-1
+                                      w-2
+                                      h-2
+                                      rounded-full
+                                      bg-[#D99A35]
+                                    "
+                                  />
+
+
+                                  <div
+                                    className="
+                                      text-[9px]
+                                      uppercase
+                                      tracking-[0.12em]
+                                      font-bold
+                                      text-stone-400
+                                    "
+                                  >
+                                    {stop.type}
+                                  </div>
+
+
+                                  <div
+                                    className="
+                                      mt-1
+                                      text-sm
+                                      font-bold
+                                      text-[#17382D]
+                                    "
+                                  >
+                                    {stop.place}
+                                  </div>
+
+
+                                  <div
+                                    className="
+                                      mt-1
+                                      text-xs
+                                      leading-relaxed
+                                      text-stone-500
+                                    "
+                                  >
+                                    {stop.note}
+                                  </div>
+
+                                </div>
+
+                              </div>
+
+                            )
+                          )}
+
                         </div>
-                      ))}
+
+                      </div>
+
                     </div>
+
+                  )
+                )}
+
+              </div>
+
+
+              {/* PRINT */}
+
+              <div
+                className="
+                  flex
+                  flex-col
+                  sm:flex-row
+                  items-center
+                  justify-between
+                  gap-4
+                  rounded-[24px]
+                  bg-[#EEE7DA]
+                  p-6
+                "
+              >
+
+                <div>
+
+                  <div
+                    className="
+                      flex
+                      items-center
+                      gap-2
+                      text-xs
+                      font-bold
+                      text-[#17382D]
+                    "
+                  >
+
+                    <Route className="w-4 h-4 text-[#A7612C]" />
+
+                    Your Andalucía
+
                   </div>
-                ))}
-              </div>
 
-              {/* Print / Export Action Bar */}
-              <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-stone-200">
+                  <p
+                    className="
+                      mt-1
+                      text-xs
+                      text-stone-500
+                    "
+                  >
+                    Prototipo de itinerario personalizable.
+                  </p>
+
+                </div>
+
+
                 <button
-                  onClick={() => {
-                    window.print();
-                  }}
-                  className="px-5 py-2.5 rounded-full bg-[#FAF9F6] hover:bg-stone-100 text-stone-700 border border-stone-300 text-xs font-bold flex items-center gap-2"
+                  onClick={() =>
+                    window.print()
+                  }
+                  className="
+                    inline-flex
+                    items-center
+                    gap-2
+                    rounded-full
+                    bg-white
+                    border
+                    border-stone-300
+                    px-5
+                    py-3
+                    text-xs
+                    font-bold
+                    text-[#17382D]
+                    hover:bg-[#17382D]
+                    hover:text-white
+                    transition
+                  "
                 >
-                  <Printer className="w-4 h-4 text-[#D97706]" />
-                  <span>Imprimir / Guardar PDF</span>
+
+                  <Printer className="w-4 h-4" />
+
+                  Imprimir viaje
+
                 </button>
 
-                <button
-                  onClick={() => {
-                    if (navigator.clipboard) {
-                      navigator.clipboard.writeText(window.location.href);
-                      alert('Enlace de tu itinerario andaluz copiado al portapapeles');
-                    }
-                  }}
-                  className="px-5 py-2.5 rounded-full bg-[#FAF9F6] hover:bg-stone-100 text-stone-700 border border-stone-300 text-xs font-bold flex items-center gap-2"
-                >
-                  <Share2 className="w-4 h-4 text-[#D97706]" />
-                  <span>Compartir Itinerario</span>
-                </button>
               </div>
 
-            </div>
+            </section>
+
           )}
 
         </div>
 
       </div>
+
     </div>
+
   );
+
+}
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+
+function StepHeader({
+  number,
+  title,
+  subtitle
+}: {
+  number: string;
+  title: string;
+  subtitle: string;
+}) {
+
+  return (
+
+    <div
+      className="
+        flex
+        gap-4
+        items-start
+      "
+    >
+
+      <div
+        className="
+          font-mono
+          text-xs
+          font-black
+          text-[#D99A35]
+          pt-1
+        "
+      >
+        {number}
+      </div>
+
+
+      <div>
+
+        <h3
+          className="
+            font-serif
+            text-2xl
+            sm:text-3xl
+            font-bold
+            text-[#17382D]
+          "
+        >
+          {title}
+        </h3>
+
+        <p
+          className="
+            mt-1
+            text-sm
+            text-stone-500
+          "
+        >
+          {subtitle}
+        </p>
+
+      </div>
+
+    </div>
+
+  );
+
+}
+
+
+function ArrivalCard({
+  selected,
+  title,
+  subtitle,
+  detail,
+  onClick
+}: {
+  selected: boolean;
+  title: string;
+  subtitle: string;
+  detail: string;
+  onClick: () => void;
+}) {
+
+  return (
+
+    <button
+      onClick={onClick}
+      className={`
+        rounded-[22px]
+        p-5
+        text-left
+        border
+        transition-all
+        ${
+          selected
+            ? 'bg-[#17382D] border-[#17382D] text-white shadow-lg'
+            : 'bg-white border-stone-200 text-[#17382D] hover:border-[#D99A35]'
+        }
+      `}
+    >
+
+      <div
+        className="
+          flex
+          items-center
+          justify-between
+        "
+      >
+
+        <Train
+          className={`
+            w-5
+            h-5
+            ${
+              selected
+                ? 'text-[#E3AA49]'
+                : 'text-[#A7612C]'
+            }
+          `}
+        />
+
+        {selected && (
+          <Check className="w-4 h-4 text-[#E3AA49]" />
+        )}
+
+      </div>
+
+
+      <h4
+        className="
+          mt-5
+          font-serif
+          text-2xl
+          font-bold
+        "
+      >
+        {title}
+      </h4>
+
+
+      <div
+        className={`
+          mt-1
+          text-xs
+          font-semibold
+          ${
+            selected
+              ? 'text-white/60'
+              : 'text-stone-500'
+          }
+        `}
+      >
+        {subtitle}
+      </div>
+
+
+      <div
+        className={`
+          mt-4
+          text-[9px]
+          uppercase
+          tracking-[0.13em]
+          ${
+            selected
+              ? 'text-[#E3AA49]'
+              : 'text-stone-400'
+          }
+        `}
+      >
+        {detail}
+      </div>
+
+    </button>
+
+  );
+
 }
