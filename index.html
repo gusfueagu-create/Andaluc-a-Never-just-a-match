@@ -2,20 +2,578 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Andalucía - Never Just a Match</title>
-    <meta name="description" content="Estrategia de marca, canal de YouTube interactivo y rutas experienciales por las 8 provincias de Andalucía para visitantes del Mundial 2030." />
-    <meta property="og:title" content="Andalucía - Never Just a Match" />
-    <meta property="og:description" content="Estrategia de marca, canal de YouTube interactivo y rutas experienciales por las 8 provincias de Andalucía para visitantes del Mundial 2030." />
-    <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,400;1,600&family=Cinzel:wght@600;700;900&display=swap" rel="stylesheet">
-  </head>
-  <body class="bg-[#FAF9F6] text-[#2D2926] antialiased selection:bg-[#D97706] selection:text-white">
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-</html>
 
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=5"
+    />
+
+    <title>Andalucía 2030 | Never Just a Match</title>
+
+    <meta
+      name="description"
+      content="Andalucía - Never Just a Match. Una estrategia para convertir el Mundial 2030 en una puerta de entrada a las ocho provincias de Andalucía a través de contenidos, experiencias y rutas."
+    />
+
+    <meta
+      name="theme-color"
+      content="#14382D"
+    />
+
+    <meta
+      name="color-scheme"
+      content="light"
+    />
+
+
+    <!-- OPEN GRAPH -->
+
+    <meta
+      property="og:title"
+      content="Andalucía 2030 | Never Just a Match"
+    />
+
+    <meta
+      property="og:description"
+      content="El partido dura 90 minutos. Andalucía puede durar mucho más. Estrategia de marca, contenidos y experiencias para el Mundial 2030."
+    />
+
+    <meta
+      property="og:type"
+      content="website"
+    />
+
+    <meta
+      property="og:locale"
+      content="es_ES"
+    />
+
+
+    <!-- TWITTER -->
+
+    <meta
+      name="twitter:card"
+      content="summary_large_image"
+    />
+
+    <meta
+      name="twitter:title"
+      content="Andalucía 2030 | Never Just a Match"
+    />
+
+    <meta
+      name="twitter:description"
+      content="El partido dura 90 minutos. Andalucía puede durar mucho más."
+    />
+
+
+    <!-- FONTS -->
+
+    <link
+      rel="preconnect"
+      href="https://fonts.googleapis.com"
+    />
+
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,400;1,600&family=Cinzel:wght@600;700;900&display=swap"
+      rel="stylesheet"
+    />
+
+
+    <style>
+
+      :root {
+        --andalucia-green: #14382d;
+        --andalucia-green-light: #245645;
+        --albero: #d89a32;
+        --terracotta: #b9583c;
+        --ivory: #faf8f2;
+        --sand: #ede5d5;
+        --text: #272724;
+      }
+
+
+      * {
+        box-sizing: border-box;
+      }
+
+
+      html {
+        scroll-behavior: smooth;
+        background: var(--ivory);
+      }
+
+
+      body {
+        margin: 0;
+        min-width: 320px;
+        min-height: 100vh;
+
+        background:
+          radial-gradient(
+            circle at 85% 15%,
+            rgba(216,154,50,.12),
+            transparent 30%
+          ),
+          radial-gradient(
+            circle at 10% 85%,
+            rgba(20,56,45,.08),
+            transparent 32%
+          ),
+          var(--ivory);
+
+        color: var(--text);
+
+        font-family:
+          "Plus Jakarta Sans",
+          Arial,
+          Helvetica,
+          sans-serif;
+
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+
+      ::selection {
+        background: var(--albero);
+        color: white;
+      }
+
+
+      #root {
+        min-height: 100vh;
+      }
+
+
+      /*
+      ====================================
+      INITIAL EXPERIENCE
+      ====================================
+      */
+
+      .initial-screen {
+
+        position: fixed;
+        inset: 0;
+
+        z-index: 9999;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        overflow: hidden;
+
+        background:
+          linear-gradient(
+            135deg,
+            #0d2921 0%,
+            #173d31 50%,
+            #285746 100%
+          );
+
+        color: white;
+
+        transition:
+          opacity .65s ease,
+          visibility .65s ease;
+      }
+
+
+      .initial-screen::before {
+
+        content: "";
+
+        position: absolute;
+
+        width: 620px;
+        height: 620px;
+
+        right: -240px;
+        top: -260px;
+
+        border-radius: 50%;
+
+        border:
+          1px solid
+          rgba(255,255,255,.1);
+      }
+
+
+      .initial-screen::after {
+
+        content: "";
+
+        position: absolute;
+
+        width: 420px;
+        height: 420px;
+
+        left: -210px;
+        bottom: -220px;
+
+        border-radius: 50%;
+
+        background:
+          rgba(216,154,50,.08);
+
+        border:
+          1px solid
+          rgba(216,154,50,.2);
+      }
+
+
+      .initial-content {
+
+        position: relative;
+
+        z-index: 2;
+
+        width: min(90%, 850px);
+
+        text-align: center;
+
+        animation:
+          revealInitial
+          .8s
+          ease
+          both;
+      }
+
+
+      .initial-kicker {
+
+        margin-bottom: 22px;
+
+        color: #e2b866;
+
+        font-size: 11px;
+
+        font-weight: 700;
+
+        letter-spacing: 4px;
+
+        text-transform: uppercase;
+      }
+
+
+      .initial-title {
+
+        margin: 0;
+
+        font-family:
+          "Playfair Display",
+          Georgia,
+          serif;
+
+        font-size:
+          clamp(
+            45px,
+            8vw,
+            95px
+          );
+
+        line-height: .95;
+
+        letter-spacing: -3px;
+      }
+
+
+      .initial-title span {
+
+        display: block;
+
+        margin-top: 12px;
+
+        color: #e0ae54;
+
+        font-style: italic;
+
+        font-weight: 600;
+      }
+
+
+      .initial-rule {
+
+        width: 58px;
+        height: 2px;
+
+        margin:
+          31px
+          auto
+          25px;
+
+        background:
+          #d89a32;
+      }
+
+
+      .initial-copy {
+
+        max-width: 570px;
+
+        margin: auto;
+
+        color:
+          rgba(
+            255,
+            255,
+            255,
+            .72
+          );
+
+        font-size:
+          clamp(
+            14px,
+            2vw,
+            17px
+          );
+
+        line-height: 1.7;
+      }
+
+
+      .initial-loader {
+
+        position: relative;
+
+        width: 150px;
+        height: 2px;
+
+        margin:
+          35px
+          auto
+          0;
+
+        overflow: hidden;
+
+        background:
+          rgba(
+            255,
+            255,
+            255,
+            .12
+          );
+      }
+
+
+      .initial-loader::after {
+
+        content: "";
+
+        position: absolute;
+
+        left: -50%;
+
+        width: 50%;
+        height: 100%;
+
+        background:
+          #e0ae54;
+
+        animation:
+          loading
+          1.25s
+          infinite
+          ease-in-out;
+      }
+
+
+      .initial-provinces {
+
+        margin-top: 20px;
+
+        color:
+          rgba(
+            255,
+            255,
+            255,
+            .42
+          );
+
+        font-size: 9px;
+
+        font-weight: 600;
+
+        letter-spacing: 2px;
+
+        text-transform: uppercase;
+      }
+
+
+      .app-loaded .initial-screen {
+
+        opacity: 0;
+
+        visibility: hidden;
+
+        pointer-events: none;
+      }
+
+
+      @keyframes loading {
+
+        0% {
+          left: -50%;
+        }
+
+        100% {
+          left: 100%;
+        }
+
+      }
+
+
+      @keyframes revealInitial {
+
+        from {
+          opacity: 0;
+          transform: translateY(15px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+      }
+
+
+      @media (
+        prefers-reduced-motion:
+        reduce
+      ) {
+
+        *,
+        *::before,
+        *::after {
+
+          animation-duration:
+            .01ms !important;
+
+          animation-iteration-count:
+            1 !important;
+
+          scroll-behavior:
+            auto !important;
+
+        }
+
+      }
+
+    </style>
+
+  </head>
+
+
+  <body>
+
+
+    <!-- FIRST IMPRESSION -->
+
+    <div
+      class="initial-screen"
+      id="initial-screen"
+      aria-hidden="true"
+    >
+
+      <div class="initial-content">
+
+        <div class="initial-kicker">
+          Andalucía · FIFA World Cup 2030
+        </div>
+
+
+        <h1 class="initial-title">
+
+          Never Just
+
+          <span>
+            a Match.
+          </span>
+
+        </h1>
+
+
+        <div class="initial-rule"></div>
+
+
+        <p class="initial-copy">
+
+          El partido dura 90 minutos.
+
+          <br>
+
+          La oportunidad para Andalucía
+          empieza mucho antes
+          y puede durar mucho después.
+
+        </p>
+
+
+        <div class="initial-loader"></div>
+
+
+        <div class="initial-provinces">
+
+          Almería · Cádiz · Córdoba · Granada ·
+          Huelva · Jaén · Málaga · Sevilla
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- REACT APP -->
+
+    <div id="root"></div>
+
+
+
+    <script
+      type="module"
+      src="/src/main.tsx">
+    </script>
+
+
+    <script>
+
+      /*
+      Remove initial screen once
+      the application has started.
+      */
+
+      window.addEventListener(
+        "load",
+        function () {
+
+          setTimeout(
+            function () {
+
+              document.body
+                .classList
+                .add("app-loaded");
+
+            },
+            450
+          );
+
+        }
+      );
+
+    </script>
+
+
+  </body>
+
+</html>
