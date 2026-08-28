@@ -1,0 +1,6 @@
+{
+  "name": "Andalucía - Never Just a Match",
+  "description": "Estrategia de marca, canal de YouTube interactivo y rutas experienciales por las 8 provincias de Andalucía para visitantes del Mundial 2030.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
