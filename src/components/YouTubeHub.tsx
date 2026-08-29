@@ -1815,6 +1815,4 @@ function DistributionCard({
   );
 
 }
-    </div>
-  );
-}
+   
