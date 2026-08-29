@@ -1839,6 +1839,4 @@ function InfoBox({
 
 }
 
-    </div>
-  );
-}
+  
