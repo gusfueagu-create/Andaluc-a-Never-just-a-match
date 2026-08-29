@@ -1112,6 +1112,3 @@ export default function TacticalEleven() {
 
 }
 
-    </div>
-  );
-}
