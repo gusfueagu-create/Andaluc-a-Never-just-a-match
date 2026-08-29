@@ -5,6 +5,7 @@ import {defineConfig} from 'vite';
 
 export default defineConfig(() => {
   return {
+    base: '/Andaluc-a-Never-just-a-match/',
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
